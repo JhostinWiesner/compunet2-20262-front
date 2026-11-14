@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router';
+import ProtectedRoute from '../components/ProtectedRoute';
 import Root from '../pages/Root';
 import Home from '../pages/home/Home';
 import HooksDemo from '../pages/hooks/HooksDemo';
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
             { index: true, Component: Home },
             { path: 'sandbox', Component: Sandbox },
             { path: 'hooks', Component: HooksDemo },
-            { path: 'dashboard', Component: Dashboard },
+            { Component: ProtectedRoute, children: [{ path: 'dashboard', Component: Dashboard }] },
             { path: 'signin', Component: SignIn },
             { path: 'signup', Component: SignUp },
             {

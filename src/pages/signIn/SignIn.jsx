@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useAuth } from '../../context/AuthContext';
 import { login } from '../../services/authService';
 
 export default function SignIn() {
     const navigate = useNavigate();
+    const { login: saveSession } = useAuth();
     const formRef = useRef(null);
     const [error, setError] = useState(null);
 
@@ -15,20 +17,20 @@ export default function SignIn() {
         };
         try {
             const { accessToken } = await login(credentials);
-            localStorage.setItem('token', accessToken);
+            saveSession(accessToken);
             navigate('/dashboard', { replace: true });
         } catch {
-            setError('Credenciales incorrectas');
+            setError('Invalid credentials');
         }
     };
 
     return (
         <form ref={formRef} onSubmit={handleSubmit}>
             <h2>Sign In</h2>
-            <input name="email" type="email" placeholder="Correo" required />
-            <input name="password" type="password" placeholder="Contraseña" required />
+            <input name="email" type="email" placeholder="Email" required />
+            <input name="password" type="password" placeholder="Password" required />
             {error && <p>{error}</p>}
-            <button type="submit">Ingresar</button>
+            <button type="submit">Sign in</button>
         </form>
     );
 }
