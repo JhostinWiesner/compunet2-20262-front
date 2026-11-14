@@ -1,23 +1,34 @@
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import Button from '../../components/Button';
+import { login } from '../../services/authService';
 
 export default function SignIn() {
     const navigate = useNavigate();
+    const formRef = useRef(null);
+    const [error, setError] = useState(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(e.target));
-        console.log('SignIn data:', data);
-        // replace: Atrás no vuelve al formulario de login
-        navigate('/', { replace: true });
+        const credentials = {
+            email: formRef.current.elements.email.value,
+            password: formRef.current.elements.password.value,
+        };
+        try {
+            const { accessToken } = await login(credentials);
+            localStorage.setItem('token', accessToken);
+            navigate('/dashboard', { replace: true });
+        } catch {
+            setError('Credenciales incorrectas');
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
             <h2>Sign In</h2>
             <input name="email" type="email" placeholder="Correo" required />
             <input name="password" type="password" placeholder="Contraseña" required />
-            <Button type="submit">Ingresar</Button>
+            {error && <p>{error}</p>}
+            <button type="submit">Ingresar</button>
         </form>
     );
 }

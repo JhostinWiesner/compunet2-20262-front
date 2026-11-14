@@ -6,6 +6,7 @@ import SignIn from '../pages/signIn/SignIn';
 import SignUp from '../pages/signUp/SignUp';
 import ProfilesPage from '../pages/profiles/ProfilesPage';
 import ProfileDetail from '../pages/profiles/ProfileDetail';
+import Dashboard from '../pages/dashboard/Dashboard';
 import Sandbox from '../pages/sandbox/Sandbox';
 
 export const router = createBrowserRouter([
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
             { index: true, Component: Home },
             { path: 'sandbox', Component: Sandbox },
             { path: 'hooks', Component: HooksDemo },
+            { path: 'dashboard', Component: Dashboard },
             { path: 'signin', Component: SignIn },
             { path: 'signup', Component: SignUp },
             {
